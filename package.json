@@ -1,0 +1,40 @@
+{
+  "name": "tic-tac-toe",
+  "version": "1.0.0",
+  "description": "tic-tac-toe game, built with React and Vite",
+  "keywords": [
+    "react",
+    "game",
+    "tic-tac-toe"
+  ],
+  "homepage": "https://github.com/kaylahimmel/tic-tac-toe#readme",
+  "bugs": {
+    "url": "https://github.com/kaylahimmel/tic-tac-toe/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kaylahimmel/tic-tac-toe.git"
+  },
+  "license": "ISC",
+  "author": "kaylahimmel",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "vite",
+    "build": "vite build",
+    "test": "npm test"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "^5.1.4",
+    "eslint": "^10.0.0",
+    "prettier": "^3.8.1",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3"
+  }
+}
