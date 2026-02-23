@@ -1,13 +1,150 @@
-body {
-  font: 14px "Century Gothic", Futura, sans-serif;
-  margin: 20px;
+/* ─── Color tokens (dark is default / fallback) ─────────────────────────── */
+
+:root {
+  --color-bg: #1e1e1e;
+  --color-text: #e0e0e0;
+  --color-label: #777;
+  --color-square-bg: #2a2a2a;
+  --color-square-border: #444;
+  --color-o: #f5c518;
+  --color-move-item: #ccc;
+  --color-move-hover: #6699ff;
+  --color-btn-bg: #2a2a2a;
 }
 
-ol, ul {
+:root[data-theme='light'] {
+  --color-bg: #ffffff;
+  --color-text: #1a1a1a;
+  --color-label: #888;
+  --color-square-bg: #ffffff;
+  --color-square-border: #999;
+  --color-o: #cc0000;
+  --color-move-item: #333;
+  --color-move-hover: #0055cc;
+  --color-btn-bg: #ffffff;
+}
+
+:root[data-theme='purple'] {
+  --color-bg: #1a0533;
+  --color-text: #e0bfff;
+  --color-label: #9060c0;
+  --color-square-bg: #260a45;
+  --color-square-border: #6633aa;
+  --color-o: #ff79c6;
+  --color-move-item: #c090ff;
+  --color-move-hover: #ff79c6;
+  --color-btn-bg: #260a45;
+}
+
+:root[data-theme='green'] {
+  --color-bg: #0a1a0a;
+  --color-text: #b0ffb0;
+  --color-label: #4a8a4a;
+  --color-square-bg: #0f250f;
+  --color-square-border: #2d6e2d;
+  --color-o: #a0ff40;
+  --color-move-item: #78cc78;
+  --color-move-hover: #a0ff40;
+  --color-btn-bg: #0f250f;
+}
+
+:root[data-theme='yellow'] {
+  --color-bg: #fffde7;
+  --color-text: #3d2800;
+  --color-label: #998000;
+  --color-square-bg: #fff9c4;
+  --color-square-border: #ccaa00;
+  --color-o: #d04000;
+  --color-move-item: #664400;
+  --color-move-hover: #d04000;
+  --color-btn-bg: #fff9c4;
+}
+
+:root[data-theme='blue'] {
+  --color-bg: #e3f2fd;
+  --color-text: #0a2040;
+  --color-label: #4a70a0;
+  --color-square-bg: #bbdefb;
+  --color-square-border: #5599cc;
+  --color-o: #cc2222;
+  --color-move-item: #1050a0;
+  --color-move-hover: #cc2222;
+  --color-btn-bg: #bbdefb;
+}
+
+:root[data-theme='pink'] {
+  --color-bg: #fce4ec;
+  --color-text: #3a0030;
+  --color-label: #b05080;
+  --color-square-bg: #f8bbd0;
+  --color-square-border: #f080a0;
+  --color-o: #6a0090;
+  --color-move-item: #800040;
+  --color-move-hover: #6a0090;
+  --color-btn-bg: #f8bbd0;
+}
+
+/* ─── Base ───────────────────────────────────────────────────────────────── */
+
+body {
+  font:
+    14px 'Century Gothic',
+    Futura,
+    sans-serif;
+  margin: 20px;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+
+ol,
+ul {
   padding-left: 30px;
 }
 
-/* Board layout */
+/* ─── Theme bar ──────────────────────────────────────────────────────────── */
+
+.theme-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.theme-toggle {
+  background: var(--color-btn-bg);
+  border: 1px solid var(--color-square-border);
+  color: var(--color-text);
+  font-size: 1rem;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+}
+
+.theme-divider {
+  width: 1px;
+  height: 24px;
+  background: var(--color-square-border);
+  margin: 0 4px;
+}
+
+.theme-swatch {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  padding: 0;
+}
+
+.theme-swatch-active {
+  border-color: var(--color-text);
+}
+
+/* ─── Board layout ───────────────────────────────────────────────────────── */
 
 .board-col-headers {
   display: flex;
@@ -22,7 +159,7 @@ ol, ul {
   justify-content: center;
   font-size: 0.8rem;
   font-weight: bold;
-  color: #888;
+  color: var(--color-label);
 }
 
 .board-row {
@@ -39,13 +176,14 @@ ol, ul {
   justify-content: center;
   font-size: 0.8rem;
   font-weight: bold;
-  color: #888;
+  color: var(--color-label);
   flex-shrink: 0;
 }
 
 .square {
-  background: #fff;
-  border: 1px solid #999;
+  background: var(--color-square-bg);
+  border: 1px solid var(--color-square-border);
+  color: var(--color-text);
   font-size: 2.5rem;
   font-weight: bold;
   width: 90px;
@@ -59,18 +197,19 @@ ol, ul {
 }
 
 .square-o {
-  color: #cc0000;
+  color: var(--color-o);
 }
 
 .square:focus {
   outline: none;
 }
 
-/* Game layout */
+/* ─── Game layout ────────────────────────────────────────────────────────── */
 
 .game {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   gap: 32px;
 }
 
@@ -89,18 +228,18 @@ ol, ul {
   font-weight: bold;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: #888;
+  color: var(--color-label);
   margin: 0 0 8px 0;
 }
 
 .move-item {
   padding: 3px 0;
   cursor: pointer;
-  color: #333;
+  color: var(--color-move-item);
 }
 
 .move-item:hover {
-  color: #0055cc;
+  color: var(--color-move-hover);
   text-decoration: underline;
 }
 
@@ -109,6 +248,7 @@ ol, ul {
   padding: 8px 16px;
   font-size: 0.9rem;
   cursor: pointer;
-  border: 1px solid #999;
-  background: #fff;
+  border: 1px solid var(--color-square-border);
+  background: var(--color-btn-bg);
+  color: var(--color-text);
 }

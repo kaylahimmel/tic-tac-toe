@@ -2,10 +2,16 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { calculateWinner } from './utils';
 import { Board } from './components';
-import { ROWS } from './constants/constants';
+import { ROWS, Theme, COLOR_THEMES } from './constants/constants';
 import './index.css';
 
 export const Game = () => {
+  const [theme, setTheme] = React.useState<Theme>('dark');
+
+  React.useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+  }, [theme]);
+
   const [history, setHistory] = React.useState([
     {
       squares: Array(9).fill(null),
@@ -51,7 +57,6 @@ export const Game = () => {
   const winner = calculateWinner(current.squares);
   const isDraw = !winner && current.squares.every((s) => s !== null);
 
-
   const moves = history.map((step, move) => {
     let desc: string;
     if (move === 0) {
@@ -59,13 +64,19 @@ export const Game = () => {
     } else {
       const player = move % 2 === 1 ? 'X' : 'O';
       const prevSquares = history[move - 1].squares;
-      const squareIndex = step.squares.findIndex((s, i) => s !== prevSquares[i]);
+      const squareIndex = step.squares.findIndex(
+        (s, i) => s !== prevSquares[i],
+      );
       const row = ROWS[Math.floor(squareIndex / 3)];
       const col = (squareIndex % 3) + 1;
       desc = `${player} played in ${row}${col}`;
     }
     return (
-      <li key={move} className="move-item" onClick={() => jumpTo(move)}>
+      <li
+        key={move}
+        className="move-item"
+        onClick={() => jumpTo(move)}
+      >
         {desc}
       </li>
     );
@@ -74,29 +85,55 @@ export const Game = () => {
   const gameStatus = winner
     ? 'Winner: ' + winner
     : isDraw
-    ? 'No winners'
-    : 'Current player: ' + (isNext ? 'X' : 'O');
+      ? 'No winners'
+      : 'Current player: ' + (isNext ? 'X' : 'O');
 
   return (
-    <div className="game">
-      <div className="game-board">
-        <Board
-          squares={current.squares}
-          onClick={(i: number) => handleClick(i)}
-        />
+    <>
+      <div className="theme-bar">
+        <button
+          className="theme-toggle"
+          onClick={() => setTheme((t) => (t === 'dark' ? 'light' : 'dark'))}
+          aria-label="Toggle dark/light mode"
+        >
+          {theme === 'dark' ? '☀' : '☽'}
+        </button>
+        <span className="theme-divider" />
+        {COLOR_THEMES.map(({ id, color }) => (
+          <button
+            key={id}
+            className={`theme-swatch ${theme === id ? 'theme-swatch-active' : ''}`}
+            style={{ background: color }}
+            onClick={() => setTheme(id)}
+            aria-label={`${id} theme`}
+          />
+        ))}
       </div>
-      <div className="game-info">
-        <p className="game-status">{gameStatus}</p>
-        {isDraw ? (
-          <button className="play-again" onClick={resetGame}>Play again</button>
-        ) : (
-          <>
-            <p className="moves-title">Move History</p>
-            <ol>{moves}</ol>
-          </>
-        )}
+      <div className="game">
+        <div className="game-board">
+          <Board
+            squares={current.squares}
+            onClick={(i: number) => handleClick(i)}
+          />
+        </div>
+        <div className="game-info">
+          <p className="game-status">{gameStatus}</p>
+          {isDraw ? (
+            <button
+              className="play-again"
+              onClick={resetGame}
+            >
+              Play again
+            </button>
+          ) : (
+            <>
+              <p className="moves-title">Move History</p>
+              <ol>{moves}</ol>
+            </>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
