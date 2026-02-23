@@ -2,6 +2,7 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { calculateWinner } from './utils';
 import { Board } from './components';
+import { ROWS } from './constants/constants';
 import './index.css';
 
 export const Game = () => {
@@ -40,21 +41,41 @@ export const Game = () => {
     setIsNext(step % 2 === 0);
   }
 
+  function resetGame() {
+    setHistory([{ squares: Array(9).fill(null) }]);
+    setStepNumber(0);
+    setIsNext(true);
+  }
+
   const current = history[stepNumber];
   const winner = calculateWinner(current.squares);
+  const isDraw = !winner && current.squares.every((s) => s !== null);
 
-  const moves = history.map((_step, move) => {
-    const desc = move ? 'Go to move #' + move : 'Go to game start';
+
+  const moves = history.map((step, move) => {
+    let desc: string;
+    if (move === 0) {
+      desc = 'Start of game';
+    } else {
+      const player = move % 2 === 1 ? 'X' : 'O';
+      const prevSquares = history[move - 1].squares;
+      const squareIndex = step.squares.findIndex((s, i) => s !== prevSquares[i]);
+      const row = ROWS[Math.floor(squareIndex / 3)];
+      const col = (squareIndex % 3) + 1;
+      desc = `${player} played in ${row}${col}`;
+    }
     return (
-      <li key={move}>
-        <button onClick={() => jumpTo(move)}>{desc}</button>
+      <li key={move} className="move-item" onClick={() => jumpTo(move)}>
+        {desc}
       </li>
     );
   });
 
   const gameStatus = winner
     ? 'Winner: ' + winner
-    : 'Next player: ' + (isNext ? 'X' : 'O');
+    : isDraw
+    ? 'No winners'
+    : 'Current player: ' + (isNext ? 'X' : 'O');
 
   return (
     <div className="game">
@@ -65,8 +86,15 @@ export const Game = () => {
         />
       </div>
       <div className="game-info">
-        <div>{gameStatus}</div>
-        <ol>{moves}</ol>
+        <p className="game-status">{gameStatus}</p>
+        {isDraw ? (
+          <button className="play-again" onClick={resetGame}>Play again</button>
+        ) : (
+          <>
+            <p className="moves-title">Move History</p>
+            <ol>{moves}</ol>
+          </>
+        )}
       </div>
     </div>
   );

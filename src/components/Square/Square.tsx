@@ -6,7 +6,7 @@ interface SquareProps {
 export const Square = (props: SquareProps) => {
   return (
     <button
-      className="square"
+      className={`square ${props.value === 'O' ? 'square-o' : ''}`}
       onClick={props.onClick}
     >
       {props.value}

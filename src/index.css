@@ -7,48 +7,108 @@ ol, ul {
   padding-left: 30px;
 }
 
-button {
-  border: red 1px solid;
+/* Board layout */
+
+.board-col-headers {
+  display: flex;
+  margin-left: 24px;
 }
 
-.board-row:after {
-  clear: both;
-  content: "";
-  display: table;
+.board-col-label {
+  width: 90px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: #888;
 }
 
-.status {
-  margin-bottom: 10px;
+.board-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: -1px;
+}
+
+.board-row-label {
+  width: 24px;
+  height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: #888;
+  flex-shrink: 0;
 }
 
 .square {
   background: #fff;
   border: 1px solid #999;
-  float: left;
-  font-size: 24px;
+  font-size: 2.5rem;
   font-weight: bold;
-  line-height: 34px;
-  height: 34px;
+  width: 90px;
+  height: 90px;
   margin-right: -1px;
-  margin-top: -1px;
   padding: 0;
-  text-align: center;
-  width: 34px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.square-o {
+  color: #cc0000;
 }
 
 .square:focus {
   outline: none;
 }
 
-.kbd-navigation .square:focus {
-  background: #ddd;
-}
+/* Game layout */
 
 .game {
   display: flex;
   flex-direction: row;
+  gap: 32px;
 }
 
 .game-info {
-  margin-left: 20px;
+  padding-top: 24px;
+}
+
+.game-status {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0 0 24px 0;
+}
+
+.moves-title {
+  font-size: 0.75rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #888;
+  margin: 0 0 8px 0;
+}
+
+.move-item {
+  padding: 3px 0;
+  cursor: pointer;
+  color: #333;
+}
+
+.move-item:hover {
+  color: #0055cc;
+  text-decoration: underline;
+}
+
+.play-again {
+  margin-top: 8px;
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border: 1px solid #999;
+  background: #fff;
 }
